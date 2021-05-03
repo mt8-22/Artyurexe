@@ -107,14 +107,16 @@ void print_table (struct car carpark[], int amount)
 		
 	}
 
-void find_used(struct car carpark[], int amount);
+void find_used(struct car carpark[], int amount)
 	{
+		int mincost = 0;
+		int maxcost = 0;
 		char brand[20];
 		printf("Необходимая марка машины: ");
-		scanf("%s", &brand);
-		printf("Минимальная цена: ");
+		scanf("%s", brand);
+		printf("Минимальная цена (тыс. $): ");
 		scanf("%i", &mincost);
-		printf("Максимальная цена: ");
+		printf("Максимальная цена (тыс. $): ");
 		scanf("%i", &maxcost);
 		printf("\nСписок БУ автомобилей с выбраной марки в необходимом ценовом диапазоне с отсутсвием ремонтов:\n");
 		printf("_______________________________________________________________________________________\n");
@@ -122,16 +124,20 @@ void find_used(struct car carpark[], int amount);
 		printf("_______________________________________________________________________________________\n");
 		for (int i = 0; i < amount; ++i)
 		{
-			if (strcmp (carpark[i].quality, "БУ") == 0) && (strcmp (carpark[i].brand, brand) == 0) && 
-				(carpark[i].cost > mincost) && (carpark[i].cost < maxcost) && (carpark[i].repairs == 0)
+			if (strcmp (carpark[i].quality, "БУ") == 0 && strcmp (carpark[i].brand, brand) == 0) 
 			{
-				for (int i = 0; i < amount; ++i)
+				if (carpark[i].cost > mincost && carpark[i].cost < maxcost) 
+				{
+					if (carpark[i].repairs == 0)
 					{
-						printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
-						carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
-						printf("_______________________________________________________________________________________\n");
-
+						for (int i = 0; i < amount; ++i)
+							{
+								printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+								carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
+								printf("_______________________________________________________________________________________\n");
+							}
 					}
+				}
 			}
 		}
 	}
