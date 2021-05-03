@@ -14,8 +14,11 @@ struct car
 	int repairs;
 };
 
-void find_used(struct car carpark[], int amount);
-void print_table(struct car carpark[], int amount);
+void find_used (struct car carpark[], int amount);
+void print_table (struct car carpark[], int amount);
+void russian_cars (struct car carpark[], int amount);
+/*void sort_id (struct car carpark[], int amount);
+void sort_cost (struct car carpark[], int amount);*/
 
 int main(int argc, char const *argv[])
 {
@@ -59,23 +62,23 @@ int main(int argc, char const *argv[])
 			{
 				case 1:
 				{
-					print_table(carpark, amount);
+					print_table (carpark, amount);
 				}
 				case 2:
 				{
-					find_used(carpark, amount);
+					find_used (carpark, amount);
 				}
 				case 3:
 				{
-
+					russian_cars (carpark, amount);
 				}
 				case 4:
 				{
-
+					//sort_id (carpark, amount);
 				}
 				case 5:
 				{
-
+					//sort_cost (carpark, amount);
 				}
 				case 6:
 				{
@@ -108,36 +111,47 @@ void print_table (struct car carpark[], int amount)
 	}
 
 void find_used(struct car carpark[], int amount)
+{
+	int mincost = 0;
+	int maxcost = 0;
+	char brand[20];
+	printf("Необходимая марка машины: ");
+	scanf("%s", brand);
+	printf("Минимальная цена (тыс. $): ");
+	scanf("%i", &mincost);
+	printf("Максимальная цена (тыс. $): ");
+	scanf("%i", &maxcost);
+	printf("\nСписок БУ автомобилей с выбраной марки в необходимом ценовом диапазоне с отсутсвием ремонтов:\n");
+	printf("_______________________________________________________________________________________\n");
+	printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
+	printf("_______________________________________________________________________________________\n");
+	for (int i = 0; i < amount; ++i)
 	{
-		int mincost = 0;
-		int maxcost = 0;
-		char brand[20];
-		printf("Необходимая марка машины: ");
-		scanf("%s", brand);
-		printf("Минимальная цена (тыс. $): ");
-		scanf("%i", &mincost);
-		printf("Максимальная цена (тыс. $): ");
-		scanf("%i", &maxcost);
-		printf("\nСписок БУ автомобилей с выбраной марки в необходимом ценовом диапазоне с отсутсвием ремонтов:\n");
-		printf("_______________________________________________________________________________________\n");
-		printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
-		printf("_______________________________________________________________________________________\n");
-		for (int i = 0; i < amount; ++i)
+		if (strcmp (carpark[i].quality, "БУ") == 0 && strcmp (carpark[i].brand, brand) == 0 && 
+		carpark[i].cost > mincost && carpark[i].cost < maxcost && carpark[i].repairs == 0)
 		{
-			if (strcmp (carpark[i].quality, "БУ") == 0 && strcmp (carpark[i].brand, brand) == 0) 
-			{
-				if (carpark[i].cost > mincost && carpark[i].cost < maxcost) 
+			for (int i = 0; i < amount; ++i)
 				{
-					if (carpark[i].repairs == 0)
-					{
-						for (int i = 0; i < amount; ++i)
-							{
-								printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
-								carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
-								printf("_______________________________________________________________________________________\n");
-							}
-					}
+					printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+					carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
+					printf("_______________________________________________________________________________________\n");
 				}
-			}
 		}
 	}
+}
+
+void russian_cars (struct car carpark[], int amount)
+{
+	printf("_______________________________________________________________________________________\n");
+	printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
+	printf("_______________________________________________________________________________________\n");
+	for (int i = 0; i < amount; ++i)
+	{
+		if (strcmp(carpark[i].country,"Россия") == 0)
+		{
+			printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+			carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
+			printf("_______________________________________________________________________________________\n");
+		}
+	}
+}
