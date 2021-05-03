@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct car
 {
@@ -13,7 +14,8 @@ struct car
 	int repairs;
 };
 
-void print_table(struct car carpark[],int amount);
+void find_used(struct car carpark[], int amount);
+void print_table(struct car carpark[], int amount);
 
 int main(int argc, char const *argv[])
 {
@@ -27,19 +29,19 @@ int main(int argc, char const *argv[])
 			carpark[i].id = i + 1;
 			printf("\nВведите данные для автомобиля №%i\n",(i + 1));
 			printf("Марка: ");
-			scanf("%s",carpark[i].brand);
+			scanf("%s", carpark[i].brand);
 			printf("Страна-производитель: ");
-			scanf("%s",carpark[i].country);
+			scanf("%s", carpark[i].country);
 			printf("Цена (тыс. $): ");
-			scanf("%i",&carpark[i].cost);
+			scanf("%i", &carpark[i].cost);
 			printf("Цвет: ");
-			scanf("%s",carpark[i].color);
+			scanf("%s", carpark[i].color);
 			printf("Состояние: ");
-			scanf("%s",carpark[i].quality);
+			scanf("%s", carpark[i].quality);
 			printf("Пробег (тыс. км): ");
-			scanf("%i",&carpark[i].km);
+			scanf("%i", &carpark[i].km);
 			printf("количество ремонтов: ");
-			scanf("%i",&carpark[i].repairs);
+			scanf("%i", &carpark[i].repairs);
 		}	
 	int i = 0;
 	while (i<6)
@@ -52,16 +54,16 @@ int main(int argc, char const *argv[])
 			printf("5 - Отсортировать список по цене\n");
 			printf("6 - Отделить новые автомобили от БУ\n");
 			printf("7 - Закончить работу\n");
-			scanf("%i",&i);
+			scanf("%i", &i);
 			switch(i)
 			{
 				case 1:
 				{
-					print_table(carpark,amount);
+					print_table(carpark, amount);
 				}
 				case 2:
 				{
-
+					find_used(carpark, amount);
 				}
 				case 3:
 				{
@@ -86,20 +88,50 @@ int main(int argc, char const *argv[])
 			}
 
 		}
-	free(carpark);
+	free (carpark);
 	return 0;
 }
 
-void print_table(struct car carpark[],int amount)
+void print_table (struct car carpark[], int amount)
 	{
 		printf("_______________________________________________________________________________________\n");
 		printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
 		printf("_______________________________________________________________________________________\n");
 		for (int i = 0; i < amount; ++i)
 		{
-			printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand, carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
+			printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+			carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
 			printf("_______________________________________________________________________________________\n");
 
 		}
 		
+	}
+
+void find_used(struct car carpark[], int amount);
+	{
+		char brand[20];
+		printf("Необходимая марка машины: ");
+		scanf("%s", &brand);
+		printf("Минимальная цена: ");
+		scanf("%i", &mincost);
+		printf("Максимальная цена: ");
+		scanf("%i", &maxcost);
+		printf("\nСписок БУ автомобилей с выбраной марки в необходимом ценовом диапазоне с отсутсвием ремонтов:\n");
+		printf("_______________________________________________________________________________________\n");
+		printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
+		printf("_______________________________________________________________________________________\n");
+		for (int i = 0; i < amount; ++i)
+		{
+			if (strcmp (carpark[i].quality, "БУ") == 0) && (strcmp (carpark[i].brand, brand) == 0) && 
+				(carpark[i].cost > mincost) && (carpark[i].cost < maxcost) && (carpark[i].repairs == 0)
+			{
+				for (int i = 0; i < amount; ++i)
+					{
+						printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+						carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
+						printf("_______________________________________________________________________________________\n");
+
+					}
+			}
+		}
 	}
