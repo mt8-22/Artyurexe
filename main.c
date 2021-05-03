@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 struct car
 {
@@ -17,8 +18,8 @@ struct car
 void find_used (struct car carpark[], int amount);
 void print_table (struct car carpark[], int amount);
 void russian_cars (struct car carpark[], int amount);
-/*void sort_id (struct car carpark[], int amount);
-void sort_cost (struct car carpark[], int amount);*/
+void sort_id (struct car carpark[], int amount);
+void sort_cost (struct car carpark[], int amount);
 
 int main(int argc, char const *argv[])
 {
@@ -46,8 +47,8 @@ int main(int argc, char const *argv[])
 			printf("количество ремонтов: ");
 			scanf("%i", &carpark[i].repairs);
 		}	
-	int i = 0;
-	while (i<6)
+	int n = 0;
+	while (n < 7)
 		{
 			printf("Выберите функцию, которую хотите выполнить:\n");
 			printf("1 - Список всех автомобилей\n");
@@ -57,8 +58,8 @@ int main(int argc, char const *argv[])
 			printf("5 - Отсортировать список по цене\n");
 			printf("6 - Отделить новые автомобили от БУ\n");
 			printf("7 - Закончить работу\n");
-			scanf("%i", &i);
-			switch(i)
+			scanf("%i", &n);
+			switch(n)
 			{
 				case 1:
 				{
@@ -74,15 +75,15 @@ int main(int argc, char const *argv[])
 				}
 				case 4:
 				{
-					//sort_id (carpark, amount);
+					sort_id (carpark, amount);
 				}
 				case 5:
 				{
-					//sort_cost (carpark, amount);
+					sort_cost (carpark, amount);
 				}
 				case 6:
 				{
-
+									
 				}
 				case 7:
 				{
@@ -96,19 +97,17 @@ int main(int argc, char const *argv[])
 }
 
 void print_table (struct car carpark[], int amount)
+{
+	printf("_______________________________________________________________________________________\n");
+	printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
+	printf("_______________________________________________________________________________________\n");
+	for (int i = 0; i < amount; ++i)
 	{
+		printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
+		carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
 		printf("_______________________________________________________________________________________\n");
-		printf("| id |  Марка   |Страна-производитель| Цена |   Цвет   | Состояние | Пробег | Ремонты |\n");
-		printf("_______________________________________________________________________________________\n");
-		for (int i = 0; i < amount; ++i)
-		{
-			printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
-			carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
-			printf("_______________________________________________________________________________________\n");
-
-		}
-		
 	}
+}
 
 void find_used(struct car carpark[], int amount)
 {
@@ -152,6 +151,102 @@ void russian_cars (struct car carpark[], int amount)
 			printf("|%-4i|%-10s|%-15s     |%-6i|%-10s|%-10s |%-5i   |%-5i    |\n", carpark[i].id, carpark[i].brand,
 			carpark[i].country, carpark[i].cost, carpark[i].color, carpark[i].quality, carpark[i].km, carpark[i].repairs);
 			printf("_______________________________________________________________________________________\n");
+		}
+	}
+}
+
+void sort_id (struct car carpark[], int amount)
+{
+	int n = 0;
+	struct car k;
+	bool flag = true;
+	printf("Выберите как отсоритровать список:\n");
+	while (n > 2 && n < 1)
+	{
+		printf("1 - по убыванию\n");
+		printf("2 - по возрастанию\n");
+		scanf("%i", &n);
+	}
+	if (n == 1)
+	{
+		while (flag == true)
+		{
+			flag = false;
+			for (int i = 0; i < amount - 1; ++i)
+			{
+				if (carpark[i].id > carpark[i + 1].id)
+				{
+					flag = true;
+					k = carpark[i];
+					carpark[i] = carpark[i + 1];
+					carpark[i + 1] = k;
+				}
+			}
+		}
+	}
+	else
+	{
+		while (flag == true)
+		{
+			flag = false;
+			for (int i = 0; i < amount - 1; ++i)
+			{
+				if (carpark[i].id < carpark[i + 1].id)
+				{
+					flag = true;
+					k = carpark[i];
+					carpark[i] = carpark[i + 1];
+					carpark[i + 1] = k;
+				}
+			}
+		}
+	}
+}
+
+void sort_cost (struct car carpark[], int amount)
+{
+	int n = 0;
+	struct car k;
+	bool flag = true;
+	printf("Выберите как отсоритровать список:\n");
+	while (n > 2 && n < 1)
+	{
+		printf("1 - по убыванию\n");
+		printf("2 - по возрастанию\n");
+		scanf("%i", &n);
+	}
+	if (n == 1)
+	{
+		while (flag == true)
+		{
+			flag = false;
+			for (int i = 0; i < amount - 1; ++i)
+			{
+				if (carpark[i].cost > carpark[i + 1].cost)
+				{
+					flag = true;
+					k = carpark[i];
+					carpark[i] = carpark[i + 1];
+					carpark[i + 1] = k;
+				}
+			}
+		}
+	}
+	else
+	{
+		while (flag == true)
+		{
+			flag = false;
+			for (int i = 0; i < amount - 1; ++i)
+			{
+				if (carpark[i].cost < carpark[i + 1].cost)
+				{
+					flag = true;
+					k = carpark[i];
+					carpark[i] = carpark[i + 1];
+					carpark[i + 1] = k;
+				}
+			}
 		}
 	}
 }
